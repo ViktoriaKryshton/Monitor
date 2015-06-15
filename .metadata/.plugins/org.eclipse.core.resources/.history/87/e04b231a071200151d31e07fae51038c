@@ -1,0 +1,10 @@
+package main.java.com.fpmi.project.business;
+
+import java.util.List;
+import main.java.com.fpmi.project.entities.CPUTimeRecord;
+
+public class CPUDataLoader implements IDataLoader{
+	
+	abstract public List<CPUTimeRecord> read();
+
+}

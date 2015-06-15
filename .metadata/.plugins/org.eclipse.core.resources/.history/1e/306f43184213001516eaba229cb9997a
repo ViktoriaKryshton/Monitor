@@ -1,0 +1,6 @@
+ackage main.java.com.fpmi.project.business;
+
+public interface IMemoryStatisticLoader {
+
+//	public void load();
+}

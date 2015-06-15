@@ -1,0 +1,5 @@
+package main.java.com.fpmi.project.business;
+
+public interface IDataLoader {
+	abstract List<Object> read();
+}

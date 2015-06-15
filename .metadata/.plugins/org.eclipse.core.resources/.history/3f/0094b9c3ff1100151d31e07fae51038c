@@ -1,0 +1,91 @@
+package by.kryshton.library.command;
+
+import by.kryshton.library.entity.Book;
+import by.kryshton.library.entity.Reader;
+import by.kryshton.library.entity.SelectedBook;
+import by.kryshton.library.entity.User;
+import by.kryshton.library.exception.ServiceLogicalException;
+import by.kryshton.library.exception.ServiceTechnicalException;
+import by.kryshton.library.resource.ConfigurationManager;
+import by.kryshton.library.resource.MessageManager;
+import by.kryshton.library.service.BookLogic;
+import by.kryshton.library.service.LoginLogic;
+import by.kryshton.library.service.ReaderLogic;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+
+public class LoginCommand implements ActionCommand {
+
+    private static final String PARAM_NAME_LOGIN = "login";
+    private static final String PARAM_NAME_PASSWORD = "password";
+    private static final String PARAM_NAME_LANGUAGE = "language";
+
+    @Override
+    public String execute(HttpServletRequest request) {
+        String language = (String) request.getSession().getAttribute(PARAM_NAME_LANGUAGE);
+        if (language == null) {
+            language = "ru";
+        }
+        Locale locale = new Locale(language);
+        String page;
+        String login = request.getParameter(PARAM_NAME_LOGIN);
+        String pass = request.getParameter(PARAM_NAME_PASSWORD);
+        try {
+            User user = LoginLogic.checkLogin(login, pass);
+            if (user.isValid()) {
+                request.getSession().setAttribute("role", user.getRole());
+                request.getSession().setAttribute("user", login);
+                request.getSession().setAttribute("language", language);
+                request.setAttribute("user", login);
+                request.setAttribute("role", user.getRole());
+                Map<Integer, String> genreMap = BookLogic.findGenre();
+                request.setAttribute("genreMap", genreMap);
+                if (("librarian").equals(user.getRole())) {
+                    List<SelectedBook> catalogWait = BookLogic.booksWithStatus("wait");
+                    request.setAttribute("catalog_wait", catalogWait);
+                    request.setAttribute("waiting_count", catalogWait.size());
+                    if (catalogWait.isEmpty()) {
+                        request.setAttribute("noWaitingBooks", MessageManager.getProperty("message.nowaitingbooks", locale));
+                    }
+                    Map<SelectedBook, Reader> catalogOverdue = BookLogic.overdueBook();
+                    Collection<Reader> readersForBlock = catalogOverdue.values();
+
+                    Iterator<Reader> iterator = readersForBlock.iterator();
+                    while (iterator.hasNext()) {
+                        Reader reader = iterator.next();
+                        ReaderLogic.blockReader(reader.getId());
+                    }
+                    request.setAttribute("catalog_overdue", catalogOverdue);
+                    request.setAttribute("overdue_count", catalogOverdue.size());
+                    if (catalogOverdue.isEmpty()) {
+                        request.setAttribute("noOverdueBooks", MessageManager.getProperty("message.nooverduebooks", locale));
+                    }
+                    Map<Integer, String> readingPlaceMap = BookLogic.findReadingPlaces();
+                    request.setAttribute("reading_place_map", readingPlaceMap);
+                    page = ConfigurationManager.getProperty("path.page.librarian.main");
+                } else {
+                    request.getSession().setAttribute("userId", ReaderLogic.findReaderId(login));
+                    if (!ReaderLogic.isBlocked(login)) {
+                        List<Book> catalog = BookLogic.bestBook();
+                        request.setAttribute("catalog", catalog);
+                        page = ConfigurationManager.getProperty("path.page.reader.main");
+                    } else {
+                        request.setAttribute("errorLoginPassMessage", MessageManager.getProperty("message.blockuser", locale));
+                        page = ConfigurationManager.getProperty("path.page.login");
+                    }
+                }
+            } else {
+                request.setAttribute("errorLoginPassMessage", MessageManager.getProperty("message.loginerror", locale));
+                page = ConfigurationManager.getProperty("path.page.login");
+            }
+        } catch (ServiceTechnicalException | ServiceLogicalException ex) {
+            request.setAttribute("errorMessage", ex.getMessage());
+            page = ConfigurationManager.getProperty("path.page.error");
+        }
+        return page;
+    }
+}

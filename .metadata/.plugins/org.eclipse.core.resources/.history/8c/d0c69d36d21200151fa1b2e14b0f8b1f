@@ -1,0 +1,65 @@
+package main.java.com.fpmi.project.webapp;
+
+import java.lang.management.ManagementFactory;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.sun.management.OperatingSystemMXBean;
+
+import main.java.com.fpmi.project.entity.Record;
+
+public class ReloadCommand implements ActionCommand {
+
+    @Override
+    public String execute(HttpServletRequest request) {
+    	
+    	OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(
+                OperatingSystemMXBean.class);
+    	
+    	List<Record> records = new ArrayList<Record>();
+    	for(int i = 0; i<20; i++)
+    	{
+	    	Record record = new Record();
+			
+			record.setAvailable(osBean.getFreePhysicalMemorySize());
+			record.setId(i);
+			Calendar today = new GregorianCalendar();
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			java.util.Date date = today.getTime();
+			record.setDate(date);
+			records.add(record);
+    	}
+        
+    	request.getSession().setAttribute("ramRecords", records);
+        
+    	records = new ArrayList<Record>();
+    	for(int i = 0; i<20; i++)
+    	{
+	    	Record record = new Record();
+			
+			record.setAvailable(osBean.getFreePhysicalMemorySize());
+			record.setId(i);
+			Calendar today = new GregorianCalendar();
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			java.util.Date date = today.getTime();
+			record.setDate(date);
+			records.add(record);
+    	}
+        
+    	request.getSession().setAttribute("cpuRecords", records);
+    	
+        String page = "/index.jsp";
+        
+        return page;
+    }
+}

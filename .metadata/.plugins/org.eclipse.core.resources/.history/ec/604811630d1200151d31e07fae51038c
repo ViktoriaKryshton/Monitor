@@ -1,0 +1,44 @@
+package main.java.com.fpmi.project.business;
+
+import java.lang.management.ManagementFactory;
+
+import com.sun.management.OperatingSystemMXBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class RAMMemoryMonitor extends Thread implements IMonitor {
+
+	private volatile boolean stop = false;
+	 
+	public void finish()
+    {
+		stop = true;
+    }
+	
+	public void run()
+	{
+		OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(
+                OperatingSystemMXBean.class);
+		
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				"spring-config.xml");			
+		IMonitor ramMonitor = (IMonitor) context.getBean("RAMMonitor");
+		
+		MemoryInfoDumper infoDumper = (MemoryInfoDumper) context.getBean("RAMInfoDumper");
+		IDataLoader dataLoader = (RAMDataLoader) context.getBean("RAMDataLoader");
+
+		while(!stop)
+		{
+			infoDumper.write(osBean.getFreePhysicalMemorySize());
+			
+			System.out.println("")
+			System.out.println(dataLoader.read());
+			try {
+				sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+}

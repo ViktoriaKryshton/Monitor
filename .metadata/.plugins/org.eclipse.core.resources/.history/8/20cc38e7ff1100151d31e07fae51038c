@@ -1,0 +1,24 @@
+package main.java.com.fpmi.project.webapp;
+
+import main.java.com.fpmi.project.webapp.ActionCommand;
+import main.java.com.fpmi.project.webapp.AddInReaderBookCommand;
+
+public enum CommandEnum {
+
+    LOGIN {
+                {
+                    this.command = new LoginCommand();
+                }
+            },
+    SHOW_CONTACT {
+                {
+                    this.command = new ShowContactCommand();
+                }
+            };
+
+    ActionCommand command;
+
+    public ActionCommand getCurrentCommand() {
+        return command;
+    }
+}

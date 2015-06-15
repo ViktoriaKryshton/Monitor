@@ -1,0 +1,17 @@
+package main.java.com.fpmi.project.business;
+
+import java.util.List;
+
+public class CPUDataLoader implements IDataLoader{
+	
+	public List<CPUTimeRecord> read()
+	{
+
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				"spring-config.xml");
+		
+		IDataHandler dataHandler = (CPUDataHandler) context.getBean("CPUDataHandler");
+		return dataHandler.read();
+	}
+
+}

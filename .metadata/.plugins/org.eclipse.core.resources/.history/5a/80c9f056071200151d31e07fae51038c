@@ -1,0 +1,25 @@
+package main.java.com.fpmi.project.business;
+
+import java.lang.management.ManagementFactory;
+import java.util.List;
+
+import com.sun.management.OperatingSystemMXBean;
+
+import main.java.com.fpmi.project.entities.CPUTimeRecord;
+
+public class CPUDataLoader implements IDataLoader{
+	
+	public List<CPUTimeRecord> read()
+	{
+		OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(
+                OperatingSystemMXBean.class);
+		
+
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				"spring-config.xml");
+		
+		IDataHandler dataHandler = (CPUDataHandler) context.getBean("CPUDataHandler");
+		return dataHandler.read();
+	}
+
+}

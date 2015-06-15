@@ -1,0 +1,20 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+<bean id="RAMMonitor" class="main.java.com.fpmi.project.business.RAMMemoryMonitor" />
+<bean id="CPUMonitor" class="main.java.com.fpmi.project.business.CPUMonitor" />
+
+
+<bean id="CPUInfoDumper" class="main.java.com.fpmi.project.business.CPUInfoDumper" />
+<bean id="RAMInfoDumper" class="main.java.com.fpmi.project.business.RAMInfoDumper" />
+
+<bean id="CPUDataHandler" class="main.java.com.fpmi.project.business.CPUDataHandler" />
+<bean id="RAMDataHandler" class="main.java.com.fpmi.project.business.RAMDataHandler" />
+
+<bean id="CPUDataLoader" class="main.java.com.fpmi.project.business.CPUDataLoader" />
+<bean id="RAMDataLoader" class="main.java.com.fpmi.project.business.RAMDataLoader" />
+
+</beans>

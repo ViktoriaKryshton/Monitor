@@ -1,0 +1,132 @@
+package main.java.com.fpmi.project.webapp;
+
+import main.java.com.fpmi.project.entity.Record;
+import main.java.com.fpmi.project.webapp.ActionCommand;
+import main.java.com.fpmi.project.webapp.factory.ActionFactory;
+import net.sf.json.JSONArray;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.management.ManagementFactory;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.sun.management.OperatingSystemMXBean;
+
+@WebServlet("/controller")
+public class Controller extends HttpServlet {
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+//        String page = null;
+//        ActionFactory client = new ActionFactory();
+//        ActionCommand command = client.defineCommand(request);
+//        page = command.execute(request);
+//        if (page != null) {
+//            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+//            dispatcher.forward(request, response);
+//        } else {
+//            request.getSession().setAttribute("nullPage", "message.nullpage");
+//            response.sendRedirect(request.getContextPath() + page);
+//        }
+    	
+    	OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(
+                OperatingSystemMXBean.class);
+    	
+    	List<Record> records = new ArrayList<Record>();
+    	for(int i = 0; i<20; i++)
+    	{
+	    	Record record = new Record();
+			
+			record.setAvailable(osBean.getFreePhysicalMemorySize());
+			record.setId(i);
+			Calendar today = new GregorianCalendar();
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			java.util.Date date = today.getTime();
+			record.setDate(date);
+			records.add(record);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+        
+    	request.getSession().setAttribute("ramRecords", records);
+        
+    	records = new ArrayList<Record>();
+    	for(int i = 0; i<20; i++)
+    	{
+	    	Record record = new Record();
+			
+			record.setAvailable(osBean.getProcessCpuTime());
+			record.setId(i);
+			Calendar today = new GregorianCalendar();
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			java.util.Date date = today.getTime();
+			record.setDate(date);
+			records.add(record);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+    	
+        PrintWriter out = response.getWriter();
+        response.setContentType("text/html");
+        
+        JSONArray arrayObj=new JSONArray();
+        
+        String query = request.getParameter("term");
+        System.out.println(query);
+        query = query.toLowerCase();
+        for(int i=0; i<COUNTRIES.length; i++) {
+            String country = COUNTRIES[i].toLowerCase();
+            if(country.startsWith(query)) {
+                arrayObj.add(COUNTRIES[i]);
+            }
+        }
+        
+        out.println(arrayObj.toString());
+        out.close();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+          super.init(config);
+    }
+}

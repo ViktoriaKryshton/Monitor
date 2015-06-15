@@ -1,0 +1,7 @@
+package main.java.com.fpmi.project.entity;
+
+import java.util.Date;
+
+public class CPUTimeRecord {
+
+}

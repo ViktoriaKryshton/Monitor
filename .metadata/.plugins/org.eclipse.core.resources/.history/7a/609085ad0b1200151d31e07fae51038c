@@ -1,0 +1,21 @@
+package main.java.com.fpmi.project.business;
+
+import   main.java.com.fpmi.project.entity.RAMTimeRecord;
+import   main.java.com.fpmi.project.business.RAMDataHandler;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+
+public class RAMDataLoader implements IDataLoader{
+		
+		public List<CPUTimeRecord> read()
+		{
+
+			ApplicationContext context = new ClassPathXmlApplicationContext(
+					"spring-config.xml");
+			
+			IDataHandler dataHandler = (RAMDataHandler) context.getBean("RAMDataHandler");
+			return dataHandler.read();
+		}
+}

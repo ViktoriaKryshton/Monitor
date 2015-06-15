@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;main.java.com.fpmi.project.entity.Memory&apos; to &apos;MemoryRecord&apos;&#x0D;&#x0A;- Original project: &apos;entities&apos;&#x0D;&#x0A;- Original element: &apos;main.java.com.fpmi.project.entity.Memory&apos;&#x0D;&#x0A;- Renamed element: &apos;main.java.com.fpmi.project.entity.MemoryRecord&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;Memory&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;main.java.com.fpmi.project.entity{Memory.java[Memory" matchStrategy="1" name="MemoryRecord" qualified="false" references="true" similarDeclarations="false" stamp="1431975749016" textual="false" version="1.0"/>
+</session>

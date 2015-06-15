@@ -1,0 +1,8 @@
+package main.java.com.fpmi.project.business;
+
+import java.util.List;
+import main.java.com.fpmi.project.entity.Record;
+
+public interface IDataLoader {
+	abstract List<Object> read();
+}

@@ -1,0 +1,8 @@
+package main.java.com.fpmi.project.business;
+
+import java.sql.Connection;
+
+public abstract class MemoryInfoDumper {
+
+	public abstract void write(long size);
+}

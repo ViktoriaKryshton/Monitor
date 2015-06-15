@@ -1,0 +1,9 @@
+package main.java.com.fpmi.project.database;
+
+public interface IMemoryRecordRepository {
+
+	public abstract void write(long size);
+
+	public abstract List<Record> read();
+
+}

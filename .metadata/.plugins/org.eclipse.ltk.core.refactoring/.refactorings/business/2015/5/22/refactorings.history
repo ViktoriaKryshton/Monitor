@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;main.java.com.fpmi.project.business.MemoryMonitor.java&apos; to &apos;IMemoryMonitor.java&apos;&#x0D;&#x0A;- Original project: &apos;business&apos;&#x0D;&#x0A;- Original element: &apos;main.java.com.fpmi.project.business.MemoryMonitor.java&apos;&#x0D;&#x0A;- Renamed element: &apos;main.java.com.fpmi.project.business.IMemoryMonitor.java&apos;" description="Rename compilation unit &apos;MemoryMonitor.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src&lt;main.java.com.fpmi.project.business{MemoryMonitor.java" name="IMemoryMonitor.java" references="false" stamp="1432641048137" version="1.0"/>
+</session>

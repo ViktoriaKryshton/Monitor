@@ -1,0 +1,24 @@
+package main.java.com.fpmi.project.webapp;
+
+import main.java.com.fpmi.project.webapp.ActionCommand;
+import main.java.com.fpmi.project.webapp.ReloadCommand;
+
+public enum CommandEnum {
+
+    RELOAD {
+                {
+                    this.command = new ReloadCommand();
+                }
+        //    },
+ //   SHOW_CONTACT {
+   //             {
+     //               this.command = new ShowContactCommand();
+       //         }
+            };
+
+    ActionCommand command;
+
+    public ActionCommand getCurrentCommand() {
+        return command;
+    }
+}

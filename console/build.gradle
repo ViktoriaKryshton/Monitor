@@ -1,0 +1,19 @@
+apply plugin: "application"
+
+version = '1.0'
+
+mainClassName = "main.java.com.fpmi.project.console.Main"
+
+dependencies {
+//	compile "log4j:log4j:1.2.17"
+	compile "org.springframework:spring-context:4.1.6.RELEASE"
+	compile project(":configuration")
+	compile project(":business")
+		compile project(":entities")
+	
+}
+
+jar {
+	manifest.attributes("Main-Class": mainClassName);
+	baseName = 'console'
+}

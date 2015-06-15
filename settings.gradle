@@ -1,0 +1,3 @@
+rootProject.name = 'Monitor'
+
+include 'console', 'webapp', 'entities', 'business', 'database', 'configuration'

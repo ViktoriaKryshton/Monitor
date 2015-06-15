@@ -1,0 +1,28 @@
+package main.java.com.fpmi.project.database;
+
+import java.util.List;
+import   main.java.com.fpmi.project.entity.Record;
+
+public interface IMemoryRecordRepository {
+	
+    protected Connection connection;
+
+    public AbstractDAO(Connection connection) {
+        this.connection = connection;
+    }
+
+    public void close(Statement st) {
+        try {
+            if (st != null) {
+                st.close();
+            }
+        } catch (SQLException ex) {
+          LOGGER.error(ex.getMessage());
+        }
+    }
+
+	public abstract void write(Record record);
+
+	public abstract List<Record> read();
+
+}

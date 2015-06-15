@@ -1,0 +1,10 @@
+package main.java.com.fpmi.project.business;
+
+public interface IDataHandler {
+	
+	public abstract void write(long size);
+
+	public abstract Object read();
+	
+
+}

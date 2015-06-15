@@ -1,0 +1,105 @@
+package main.java.com.fpmi.project.webapp;
+
+import main.java.com.fpmi.project.webapp.ActionCommand;
+import main.java.com.fpmi.project.webappd.AddInReaderBookCommand;
+
+public enum CommandEnum {
+
+    LOGIN {
+                {
+                    this.command = new LoginCommand();
+                }
+            },
+    LOGOUT {
+                {
+                    this.command = new LogoutCommand();
+                }
+            },
+    SHOW_READER_BOOKS {
+                {
+                    this.command = new ShowReaderBookCommand();
+                }
+            },
+    SEARCH_BOOK {
+                {
+                    this.command = new SearchBookCommand();
+                }
+            },
+    HOME {
+                {
+                    this.command = new HomeCommand();
+                }
+            },
+    BOOK_BY_GENRE {
+                {
+                    this.command = new BookByGenreCommand();
+                }
+            },
+    SHOW_BOOK_INFO {
+                {
+                    this.command = new ShowBookInfoCommand();
+                }
+
+            },
+    ADD_IN_READER_BOOK {
+                {
+                    this.command = new AddInReaderBookCommand();
+                }
+            },
+    TAKE_BOOK {
+                {
+                    this.command = new TakeBookCommand();
+                }
+            },
+    REFUSE_BOOK {
+                {
+                    this.command = new RefuseBookCommand();
+                }
+            },
+    GIVE_BOOK {
+                {
+                    this.command = new GiveBookCommand();
+                }
+            },
+    SEARCH_READER {
+                {
+                    this.command = new SearchReaderCommand();
+                }
+            },
+    RETURN_BOOK {
+                {
+                    this.command = new ReturnBookCommand();
+                }
+            },
+    ADD_VOTER {
+                {
+                    this.command = new AddVoteInVoterListCommand();
+                }
+            },
+    ADD_NEW_BOOK {
+                {
+                    this.command = new AddNewBookCommand();
+                }
+            },
+    CHANGE_LANGUAGE {
+                {
+                    this.command = new ChangeLanguageCommand();
+                }
+            },
+    UNBLOCK_READER {
+                {
+                    this.command = new UnblockReaderCommand();
+                }
+            },
+    SHOW_CONTACT {
+                {
+                    this.command = new ShowContactCommand();
+                }
+            };
+
+    ActionCommand command;
+
+    public ActionCommand getCurrentCommand() {
+        return command;
+    }
+}

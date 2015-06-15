@@ -1,0 +1,61 @@
+package main.java.com.fpmi.project.business;
+
+import java.lang.management.ManagementFactory;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import com.sun.management.OperatingSystemMXBean;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import main.java.com.fpmi.project.business.IDataLoader;
+import main.java.com.fpmi.project.business.RAMDataLoader;
+
+public class RAMMemoryMonitor extends Thread implements IMonitor {
+
+	private volatile boolean stop = false;
+	 
+	public void finish()
+    {
+		stop = true;
+    }
+	
+	public void run()
+	{
+		OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(
+                OperatingSystemMXBean.class);
+		
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+				"spring-config.xml");			
+		IMonitor ramMonitor = (IMonitor) context.getBean("RAMMonitor");
+		
+		MemoryInfoDumper infoDumper = (MemoryInfoDumper) context.getBean("RAMInfoDumper");
+
+		while(!stop)
+		{
+			System.out.println("RAM MONITOR");
+
+			infoDumper.write(osBean.getFreePhysicalMemorySize());
+			
+			System.out.println("RAM MONOTOR");
+
+			Record record = new Record();
+			record.setAvailable(size);
+			Calendar today = new GregorianCalendar();
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			java.util.Date date = today.getTime();
+			record.setDate(date);
+			
+			System.out.println(dataLoader.read());
+			try {
+				sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+}
